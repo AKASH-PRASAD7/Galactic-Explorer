@@ -1,7 +1,3 @@
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      Galactic Explorer
-    </main>
-  );
+  return <main>Galactic Explorer</main>;
 }
