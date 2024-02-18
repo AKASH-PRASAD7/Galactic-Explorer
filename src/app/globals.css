@@ -6,3 +6,54 @@ body {
   background-color: rgb(20, 19, 20);
   color: #fff;
 }
+
+/* Skeletal Table */
+
+.skeleton-table {
+  width: 60%;
+  margin: auto;
+}
+
+.skeleton-row {
+  display: flex;
+}
+
+.skeleton-row.header .skeleton-cell {
+  height: 30px;
+}
+
+.skeleton-row .skeleton-cell {
+  height: 20px;
+  flex: 1;
+  margin: 5px;
+  background: #484444;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.skeleton-cell::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: -150px;
+  top: 0;
+  height: 100%;
+  width: 100px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(121, 107, 107, 0.6),
+    transparent
+  );
+  animation: load 1.5s infinite;
+}
+
+@keyframes load {
+  0% {
+    left: -150px;
+  }
+  100% {
+    left: 100%;
+  }
+}

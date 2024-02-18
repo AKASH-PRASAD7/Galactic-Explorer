@@ -3,7 +3,7 @@ type People = {
   height: string;
   hairColor: string;
   birthYear: string;
-  homeworld: string;
+  mass: string;
 };
 
 export default People;

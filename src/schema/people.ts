@@ -16,8 +16,8 @@ const people: { Header: string; accessor: string }[] = [
     accessor: "birthYear",
   },
   {
-    Header: "HOMEWORLD",
-    accessor: "homeworld",
+    Header: "MASS",
+    accessor: "mass",
   },
 ];
 
