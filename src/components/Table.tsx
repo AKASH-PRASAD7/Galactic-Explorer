@@ -10,14 +10,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import peopleHeader from "@/schema/people";
-import People from "@/types/people";
-import attributes from "@/schema/attributes";
+
+import {
+  People,
+  Films,
+  Planets,
+  Species,
+  Starships,
+  Vehicles,
+  TableColumn,
+} from "@/types";
+import {
+  attributes,
+  films,
+  people,
+  planets,
+  species,
+  starships,
+  vehicles,
+} from "@/schema";
+import filterData from "@/utils/filterData";
 
 const TableComp = (): JSX.Element => {
   const [type, setType] = useState<string>("people");
   const [data, setData] = useState<People[]>([]);
   const [error, setError] = useState<string>("");
+  const [column, setColumn] = useState<TableColumn[]>(people);
 
   const getData = async (type: string) => {
     try {
@@ -26,18 +44,36 @@ const TableComp = (): JSX.Element => {
       });
       const dataObj = await res.json();
 
-      const finalResult: People[] = dataObj.data.results.map(
-        (item: any): People => ({
-          name: item.name,
-          height: item.height,
-          hairColor: item.hair_color,
-          birthYear: item.birth_year,
-          mass: item.mass,
-        })
-      );
+      const finalResult: People[] = filterData(dataObj, type);
       setData(finalResult);
     } catch (error) {
       setError(`Error fetching data:${error}`);
+    }
+  };
+
+  const handleTypeChange = (typeParam: string): void => {
+    setType(typeParam);
+    switch (typeParam) {
+      case "people":
+        setColumn(people);
+        break;
+      case "films":
+        setColumn(films);
+        break;
+      case "species":
+        setColumn(species);
+        break;
+      case "starships":
+        setColumn(starships);
+        break;
+      case "planets":
+        setColumn(planets);
+        break;
+      case "vehicles":
+        setColumn(vehicles);
+        break;
+      default:
+        setColumn(people);
     }
   };
 
@@ -59,7 +95,7 @@ const TableComp = (): JSX.Element => {
           <section className="flex justify-between w-full">
             {Object.values(attributes).map((each) => (
               <button
-                onClick={() => setType(each)}
+                onClick={() => handleTypeChange(each)}
                 className={`${
                   type === each ? `bg-cyan-400` : `bg-gray-700`
                 }  rounded-xl p-4`}
@@ -75,7 +111,7 @@ const TableComp = (): JSX.Element => {
             </TableCaption>
             <TableHeader>
               <TableRow>
-                {peopleHeader.map((header) => (
+                {column.map((header) => (
                   <TableHead key={header.accessor}>{header.Header}</TableHead>
                 ))}
               </TableRow>
