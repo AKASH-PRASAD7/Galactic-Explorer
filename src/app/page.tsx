@@ -1,6 +1,4 @@
-import Pagination from "@/components/Pagination";
-import Search from "@/components/Search";
-import Table from "@/components/Table";
+import HomeComp from "@/components/HomeComp";
 
 export default function Home(): JSX.Element {
   return (
@@ -10,9 +8,7 @@ export default function Home(): JSX.Element {
           Galactic Explorer
         </h1>
         <section className="flex flex-col items-center gap-8 justify-between mx-4 ">
-          <Search />
-          <Table />
-          <Pagination />
+          <HomeComp />
         </section>
       </main>
     </>
