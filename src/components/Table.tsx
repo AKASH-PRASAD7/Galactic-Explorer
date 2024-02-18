@@ -1,3 +1,6 @@
+"use client";
+import { useState, useEffect } from "react";
+import config from "@/config/config";
 import {
   Table,
   TableBody,
@@ -10,6 +13,24 @@ import {
 import peopleHeader from "@/schema/people";
 
 const TableComp = (): JSX.Element => {
+  const [type, setType] = useState<string>("people");
+
+  const getData = async (type: string) => {
+    // let res = await fetch(`${config.starWarsUrl}${type}/format=json`)
+    let res = await fetch(`http://localhost:3000/api/type`, {
+      method: "POST",
+      body: JSON.stringify({
+        type,
+      }),
+    });
+    // const data = await res.json();
+    console.log(res);
+  };
+
+  useEffect(() => {
+    getData(type);
+  }, []);
+
   return (
     <>
       <Table>
