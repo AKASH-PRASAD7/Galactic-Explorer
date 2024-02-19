@@ -4,14 +4,15 @@ import config from "@/config/config";
 export const GET = async (req: Request, type: any) => {
   try {
     const { params } = type;
-    console.log(params);
-    // const resData = await fetch(
-    //   `${config.starWarsUrl}${params.type}/?page=${params.page}&format=json`
-    // );
-    // const data = await resData.json();
+
+    const resData = await fetch(
+      `${config.starWarsUrl}${params.type}/?search=${params.slug}&format=json`
+    );
+    const data = await resData.json();
+
     return res.json({
       success: true,
-      //   data,
+      data,
     });
   } catch (error) {
     return res.json({

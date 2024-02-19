@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { debounce } from "lodash";
 import { Button } from "@/components/ui/button";
 import Loader from "./Loader";
 import TableComp from "./TableComp";
@@ -19,6 +20,7 @@ const HomeComp = (): JSX.Element => {
   const [previous, setPrevious] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
+  const [searchMessage, setSearchMessage] = useState<boolean>(false);
 
   const getData = async (type: string) => {
     setLoading(true);
@@ -44,24 +46,48 @@ const HomeComp = (): JSX.Element => {
     setColumn(handleTypeChange(typeParam));
   };
 
-  const handleSearch = (searchString: string) => {
-    setSearch(searchString);
+  const debouncedSearch = useCallback(
+    debounce(async (query: string, typeSearch: string) => {
+      setSearchMessage(false);
 
-    // setTimeout(async () => {
-    //   setLoading(true);
-    //   try {
-    //     const res = await fetch(
-    //       `http://localhost:3000/api/search/${type}/${searchString}`,
-    //       {
-    //         method: "GET",
-    //       }
-    //     );
-    //     // const dataObj = await res.json();
-    //   } catch (error) {
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // }, 1000);
+      try {
+        const res = await fetch(
+          `http://localhost:3000/api/search/${typeSearch}/${query}`,
+          {
+            method: "GET",
+          }
+        );
+        const dataObj = await res.json();
+
+        const finalResult: People[] = filterData(dataObj, typeSearch);
+
+        setData(finalResult);
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+
+      console.log(`Performing search for: ${query}`);
+
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }, 1000),
+    []
+  );
+
+  const handleSearch = (inputValue: string) => {
+    setSearch(inputValue);
+
+    debouncedSearch.cancel();
+
+    if (inputValue === "") {
+      setSearchMessage(false);
+      getData(type);
+    } else {
+      debouncedSearch(inputValue, type);
+    }
   };
 
   useEffect(() => {
@@ -76,34 +102,34 @@ const HomeComp = (): JSX.Element => {
   return (
     <>
       <main className="min-h-screen">
+        <Input
+          type="text"
+          className="text-lime-500 font-semibold font-sans bg-black shadow-xl shadow-slate-950 border-none outline-none"
+          placeholder={`Search ${type}`}
+          value={search}
+          onChange={(e) => handleSearch(e.target.value)}
+        />
+        <h1 className="text-center m-4">
+          {" "}
+          List Of All Star Wars {type.toUpperCase()}
+        </h1>
+        <section className="flex justify-between w-full ">
+          {Object.values(attributes).map((each) => (
+            <button
+              onClick={() => handleType(each)}
+              className={`${
+                type === each ? `bg-cyan-400` : `bg-gray-700`
+              }  rounded-xl p-4`}
+              key={each}
+            >
+              {each}
+            </button>
+          ))}
+        </section>
         {loading ? (
           <Loader />
         ) : (
           <>
-            <Input
-              type="text"
-              className="text-lime-500 font-semibold font-sans bg-black shadow-xl shadow-slate-950 border-none outline-none"
-              placeholder={`Search ${type}`}
-              value={search}
-              onChange={(e) => handleSearch(e.target.value)}
-            />
-            <h1 className="text-center m-4">
-              {" "}
-              List Of All Star Wars {type.toUpperCase()}
-            </h1>
-            <section className="flex justify-between w-full ">
-              {Object.values(attributes).map((each) => (
-                <button
-                  onClick={() => handleType(each)}
-                  className={`${
-                    type === each ? `bg-cyan-400` : `bg-gray-700`
-                  }  rounded-xl p-4`}
-                  key={each}
-                >
-                  {each}
-                </button>
-              ))}
-            </section>
             <TableComp column={column} data={data} />
 
             <section className="flex justify-center mt-4 gap-4 mb-8">
@@ -130,5 +156,4 @@ const HomeComp = (): JSX.Element => {
     </>
   );
 };
-
 export default HomeComp;
