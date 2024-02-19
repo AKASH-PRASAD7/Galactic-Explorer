@@ -52,7 +52,7 @@ const HomeComp = (): JSX.Element => {
 
       try {
         const res = await fetch(
-          `http://localhost:3000/api/search/${typeSearch}/${query}`,
+          `https://galactic-explorer.vercel.app/api/search/${typeSearch}/${query}`,
           {
             method: "GET",
           }

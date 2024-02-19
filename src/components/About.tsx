@@ -13,7 +13,9 @@ const About = ({ category, id }: params): JSX.Element => {
 
   const getData = async (cat: string, ind: string) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/get/${cat}/${ind}`);
+      const res = await fetch(
+        `https://galactic-explorer.vercel.app/api/get/${cat}/${ind}`
+      );
       const resData = await res.json();
 
       if (resData?.data?.detail === "Not found") {
