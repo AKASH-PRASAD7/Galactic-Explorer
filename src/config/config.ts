@@ -1,5 +1,5 @@
 const config = {
-  starWarsUrl: String(process.env.REACT_STARWARS_URL!),
+  starWarsUrl: "https://swapi.dev/api/",
   baseUrl: String(process.env.REACT_BASE_URL!),
 };
 
