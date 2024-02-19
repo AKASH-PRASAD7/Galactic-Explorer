@@ -25,9 +25,12 @@ const HomeComp = (): JSX.Element => {
   const getData = async (type: string) => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:3000/api/${type}/${page}`, {
-        method: "GET",
-      });
+      const res = await fetch(
+        `https://galactic-explorer.vercel.app/api/${type}/${page}`,
+        {
+          method: "GET",
+        }
+      );
       const dataObj = await res.json();
 
       setPrevious(dataObj.data.previous ? dataObj.data.previous : "");
