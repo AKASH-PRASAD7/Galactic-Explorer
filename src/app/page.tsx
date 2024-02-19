@@ -5,10 +5,10 @@ import star from "@/assests/starwars.jpg";
 export default function Home(): JSX.Element {
   return (
     <>
-      <main className="relative min-h-screen">
+      <main className="relative min-h-screen ">
         <Image
           src={star}
-          className="w-full h-full object-cover fixed inset-0 z-0"
+          className="w-full h-full object-cover fixed inset-0 z-0 "
           alt="starwars"
         />
 

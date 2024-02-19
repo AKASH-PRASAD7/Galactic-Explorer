@@ -109,21 +109,24 @@ const HomeComp = (): JSX.Element => {
           value={search}
           onChange={(e) => handleSearch(e.target.value)}
         />
-        <h1 className="text-center m-4">
+        <h1 className="text-center m-4 tex-3xl font-semibold drop-shadow-2xl">
           {" "}
           List Of All Star Wars {type.toUpperCase()}
         </h1>
         <section className="flex justify-between w-full ">
           {Object.values(attributes).map((each) => (
-            <button
+            <Button
+              variant="secondary"
               onClick={() => handleType(each)}
               className={`${
-                type === each ? `bg-cyan-400` : `bg-gray-700`
-              }  rounded-xl p-4`}
+                type === each
+                  ? `bg-cyan-400 hover:bg-gray-700`
+                  : `bg-gray-700 hover:bg-cyan-500`
+              }  rounded-full text-white font-semibold p-4 `}
               key={each}
             >
               {each}
-            </button>
+            </Button>
           ))}
         </section>
         {loading ? (
@@ -137,6 +140,7 @@ const HomeComp = (): JSX.Element => {
                 <Button
                   onClick={() => setPage((prev) => prev - 1)}
                   variant="secondary"
+                  className="bg-black hover:bg-lime-500 text-white rounded-2xl"
                 >
                   Prev
                 </Button>
@@ -145,6 +149,7 @@ const HomeComp = (): JSX.Element => {
                 <Button
                   onClick={() => setPage((prev) => prev + 1)}
                   variant="secondary"
+                  className="bg-black hover:bg-lime-500 text-white rounded-2xl"
                 >
                   Next
                 </Button>

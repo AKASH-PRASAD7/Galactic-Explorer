@@ -1,5 +1,5 @@
 const attributes = {
-  films: "films",
+  // films: "films",
   people: "people",
   planets: "planets",
   species: "species",
