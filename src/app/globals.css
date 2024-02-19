@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: rgb(20, 19, 20);
-  color: #fff;
-}
-
 /* Skeletal Table */
 
 .skeleton-table {
