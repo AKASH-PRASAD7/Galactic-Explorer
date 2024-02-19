@@ -130,7 +130,7 @@ const HomeComp = (): JSX.Element => {
           <Loader />
         ) : (
           <>
-            <TableComp column={column} data={data} />
+            <TableComp column={column} data={data} category={type} />
 
             <section className="flex justify-center mt-4 gap-4 mb-8">
               {previous && (

@@ -7,13 +7,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { People, TableColumn } from "@/types";
+import Link from "next/link";
 
 interface TableCompProps {
   column: TableColumn[];
   data: People[];
+  category: string;
 }
 
-const TableComp = ({ column, data }: TableCompProps): JSX.Element => {
+const TableComp = ({ column, data, category }: TableCompProps): JSX.Element => {
   return (
     <Table>
       <TableHeader>
@@ -24,11 +26,13 @@ const TableComp = ({ column, data }: TableCompProps): JSX.Element => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((row: People) => (
+        {data.map((row: People, index) => (
           <TableRow key={row.name}>
             {Object.values(row).map(
-              (cell, index): JSX.Element => (
-                <TableCell key={index}>{cell}</TableCell>
+              (cell, ind): JSX.Element => (
+                <TableCell key={ind}>
+                  <Link href={`/about/${category}/${index + 1}`}>{cell}</Link>
+                </TableCell>
               )
             )}
           </TableRow>
